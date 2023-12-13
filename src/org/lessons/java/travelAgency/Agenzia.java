@@ -34,6 +34,7 @@ public class Agenzia {
 
 
                     LocalDate dataPartenza = null;
+                    LocalDate dataInizio = null;
                     while (dataPartenza == null) {
 
                         System.out.println("inserisci la data di partenza yyyy-mm-gg");
@@ -42,7 +43,13 @@ public class Agenzia {
                             System.out.println("La data non può essere vuota");
                             continue;
                         }
-                        LocalDate dataInizio = LocalDate.parse(data);
+                        dataInizio = null;
+                        try {
+                            dataInizio = LocalDate.parse(data);
+                        } catch (Exception e) {
+                            System.out.println("Il formato inserito per la data non è valido");
+                            continue;
+                        }
                         LocalDate dataAttuale = LocalDate.now();
                         if (dataInizio.isBefore(dataAttuale)) {
                             System.out.println("Non è una macchina del tempo");
@@ -52,6 +59,7 @@ public class Agenzia {
                     }
 
                     LocalDate dataRitorno = null;
+                    LocalDate dataFine = null;
                     while (dataRitorno == null) {
                         System.out.println("inserisci la data di ritorno yyyy-mm-gg");
                         String data2 = scan.nextLine();
@@ -59,7 +67,13 @@ public class Agenzia {
                             System.out.println("La data non può essere vuota");
                             continue;
                         }
-                        LocalDate dataFine = LocalDate.parse(data2);
+                        dataFine = null;
+                        try {
+                            dataFine = LocalDate.parse(data2);
+                        } catch (Exception e) {
+                            System.out.println("Il formato inserito per la data non è valido");
+                            continue;
+                        }
                         if (dataFine.isBefore(dataPartenza)) {
                             System.out.println("Non è una macchina del tempo");
                             continue;
@@ -80,10 +94,8 @@ public class Agenzia {
                         String drinkChoice = scan.nextLine();
                         boolean drink = drinkChoice.equals("y");
                         ViaggioNozze nozze = new ViaggioNozze(destinazione, dataPartenza, dataRitorno, massage, spa, drink);
-
                         List <Escursione> escursioneUtente = askEscursioni(scan);
                         nozze.setEscursioni(escursioneUtente);
-
                         System.out.println(nozze.toString());
                     }
                     else if (extra.equals("2")){
@@ -101,10 +113,8 @@ public class Agenzia {
                             fasciaEta = "maggiorenne";
                         }
                         ViaggioGruppo gruppo = new ViaggioGruppo(destinazione, dataPartenza, dataRitorno, numeroGruppo, fasciaEta);
-
                         List <Escursione> escursioneUtente = askEscursioni(scan);
                         gruppo.setEscursioni(escursioneUtente);
-
                         System.out.println(gruppo.toString());
 
                     }else if(extra.equals("3")){
@@ -114,8 +124,6 @@ public class Agenzia {
                         vacanza.setEscursioni(escursioneUtente);
                         System.out.println(vacanza.toString());
                     }
-
-
                     check = true;
                     break;
                 }
@@ -128,9 +136,6 @@ public class Agenzia {
                 System.out.println("attieniti alle regole");
             }
         }
-       /* Escursione escursione = new Escursione("Roma", 23);
-        System.out.println(escursione.toString());*/
-
         scan.close();
     }
     public static List<Escursione> askEscursioni (Scanner scan){
@@ -149,7 +154,6 @@ public class Agenzia {
 
             } else if (gita.equals("n")) {
                 System.out.println("okay :c");
-                //vacanza.setEscursioni(escursioni);
                 stop = true;
             } else {
                 System.out.println("dovresti inserire una scelta valida");
